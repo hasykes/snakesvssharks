@@ -1,3 +1,4 @@
+/*
 import { Avatar } from '@/components/Avatar';
 import { Button, ButtonLink } from '@/components/Button';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
@@ -106,8 +107,18 @@ const Nav = () => {
           justifyContent="space-between"
         >
           <Link href="/">
-            <a className={styles.logo}>Next.js MongoDB App</a>
+            <a className={styles.logo}>Which is Scarier?</a>
           </Link>
+
+        </Container>
+      </Wrapper>
+    </nav>
+  );
+};
+
+export default Nav;
+
+/*
           <Container>
             {user ? (
               <>
@@ -134,10 +145,4 @@ const Nav = () => {
               </>
             )}
           </Container>
-        </Container>
-      </Wrapper>
-    </nav>
-  );
-};
-
-export default Nav;
+*/

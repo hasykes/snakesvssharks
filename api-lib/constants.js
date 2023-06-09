@@ -12,4 +12,7 @@ export const ValidateProps = {
   comment: {
     content: { type: 'string', minLength: 1, maxLength: 280 },
   },
+  vote:{
+    content:{ type: 'string', minLength: 1, maxLength: 10 },
+  }
 };
