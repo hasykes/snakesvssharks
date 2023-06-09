@@ -1,4 +1,3 @@
-import { fetcher } from '@/lib/fetch';
 import { Vote } from '@/page-components/Vote';
 import Head from 'next/head';
 
@@ -13,7 +12,7 @@ export const getStaticProps = async (context) => {
 }
 */
 
-export default function Index(props) {
+export default function Index() {
   return (
     <>
   <Head>
