@@ -19,13 +19,12 @@ handler.get(async (req,res) => {
   //console.log(req.query)
   //if it contains a vote value, then return total and individual vote quantity
   if(req.query.vote){
-
     const totalVoteCount = await getVoteCount(req.db);
     const totalTeamCount = await getVoteCount(req.db,req.query.vote)
     const promises = [totalVoteCount,totalTeamCount]
     
     Promise.allSettled(promises)
-    .then((data) => {
+    .then(() => {
       return res.status(200).json({ totalVoteCount:totalVoteCount,totalTeamCount:totalTeamCount})
     })
     .catch((e) => {return res.status(500).json({e,msg:"Failed to read individual vote"})} )

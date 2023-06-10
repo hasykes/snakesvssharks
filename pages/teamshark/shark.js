@@ -10,7 +10,7 @@ const Shark = () => {
   const [totalSharkCount,setTotalSharkCount] = useState(0);
   const [totalVoteCount,setTotalVoteCount] = useState(0);
   const [isLoading, setLoading] = useState(false);
-  const [voteCookie, setVoteCookie] = useState(getCookie('vote'));
+  const [voteCookie] = useState(getCookie('vote'));
   const router = useRouter();
 
   //console.log(totalSharkCount);
