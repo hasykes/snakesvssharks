@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Snakes vs Sharks</title>
+      <title>Snakes vs Sharks</title>
         <meta
           key="viewport"
           name="viewport"

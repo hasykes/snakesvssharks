@@ -19,7 +19,7 @@ handler.get((req,res) => {
   //console.log(req.query)
   getVoteCount(req.db,req.query.vote)
   .then((data) => {
-    console.log(data)
+    //console.log(data)
     return res.status(200).json({ totalVoteCount:data})
   })
   .catch((e) => {return res.status(500).json({e,msg:"Failed to log vote"})}) 
