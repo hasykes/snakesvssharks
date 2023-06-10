@@ -108,7 +108,7 @@ function VoteSelection () {
           />
         </Container>
         <Spacer size={2} axis="vertical" />
-        <p className={styles.tagline}>{totalVoteCount} people have made their choice...</p>
+        <p className={styles.tagline}><b className={styles.votecount}>{totalVoteCount}</b> people have made their choice...</p>
         <p className={styles.tagline}>Which side will you choose?</p>
       </Wrapper>
     );
@@ -137,7 +137,7 @@ function VoteSelection () {
           />
         </Container>
         <Spacer size={2} axis="vertical" />
-        <p className={styles.tagline}>{totalVoteCount} people have made their choice...</p>
+        <p className={styles.tagline}><b className={styles.votecount}>{totalVoteCount}</b> people have made their choice...</p>
         <p className={styles.tagline}>Which side will you choose?</p>
       </Wrapper>
     );

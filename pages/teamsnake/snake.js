@@ -46,6 +46,7 @@ const Snake = () => {
         <h2 className={styles.title}>Welcome to Team Snake!</h2>
         <Spacer size={2} axis="vertical" />
         <p className={styles.tagline}><b className={styles.percent}>{((totalSnakeCount/totalVoteCount)*100).toFixed(1)}%</b> of people agree that Snakes are Scarier than Sharks.</p>
+        <p className={styles.tagline}>Support your team and <b className={styles.percent}>share with your friends</b></p>
       </Wrapper>
   )
 };
