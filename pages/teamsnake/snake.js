@@ -1,18 +1,25 @@
 import { Container, Spacer, Wrapper} from '@/components/Layout';
 import { LoadingDots } from '@/components/LoadingDots';
 import styles from './teamsnake.module.css';
+import { getCookie } from 'cookies-next';
 import { useEffect,useState } from 'react';
+import { useRouter } from 'next/router';
 
 
 const Snake = () => {
   const [totalSnakeCount,setTotalSnakeCount] = useState(0);
   const [totalVoteCount,setTotalVoteCount] = useState(0);
   const [isLoading, setLoading] = useState(false);
+  const [voteCookie, setVoteCookie] = useState(getCookie('vote'));
+  const router = useRouter();
 
   //console.log(totalSnakeCount);
 
   useEffect(() => {
     setLoading(true)
+    if(!voteCookie){ //take them to main page if they haven't voted
+      router.push(`/`)
+    }
     fetch(`/api/vote?vote=snake`)
       .then((res) => res.json())
       .then((data) => {
