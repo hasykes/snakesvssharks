@@ -15,14 +15,31 @@ handler.post((req, res) => {
   .catch((e) => {return res.status(500).json({e,msg:"Failed to log vote"})}) 
 });
 
-handler.get((req,res) => {
+handler.get(async (req,res) => {
   //console.log(req.query)
-  getVoteCount(req.db,req.query.vote)
-  .then((data) => {
-    //console.log(data)
-    return res.status(200).json({ totalVoteCount:data})
-  })
-  .catch((e) => {return res.status(500).json({e,msg:"Failed to log vote"})}) 
+  //if it contains a vote value, then return total and individual vote quantity
+  if(req.query.vote){
+
+    const totalVoteCount = await getVoteCount(req.db);
+    const totalTeamCount = await getVoteCount(req.db,req.query.vote)
+    const promises = [totalVoteCount,totalTeamCount]
+    
+    Promise.allSettled(promises)
+    .then((data) => {
+      return res.status(200).json({ totalVoteCount:totalVoteCount,totalTeamCount:totalTeamCount})
+    })
+    .catch((e) => {return res.status(500).json({e,msg:"Failed to read individual vote"})} )
+    
+  }else{
+    getVoteCount(req.db)
+    .then((data) => {
+      //console.log(data)
+      return res.status(200).json({ totalVoteCount:data})
+    })
+    .catch((e) => {return res.status(500).json({e,msg:"Failed to log vote"})}) 
+  }
+  
+
 });
 
 export const config = {

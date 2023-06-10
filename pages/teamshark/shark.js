@@ -6,6 +6,7 @@ import { useEffect,useState } from 'react';
 
 const Shark = () => {
   const [totalSharkCount,setTotalSharkCount] = useState(0);
+  const [totalVoteCount,setTotalVoteCount] = useState(0);
   const [isLoading, setLoading] = useState(false);
 
   //console.log(totalSharkCount);
@@ -15,10 +16,11 @@ const Shark = () => {
     fetch(`/api/vote?vote=shark`)
       .then((res) => res.json())
       .then((data) => {
-        setTotalSharkCount(data.totalVoteCount)
+        setTotalSharkCount(data.totalTeamCount)
+        setTotalVoteCount(data.totalVoteCount)
         setLoading(false)
       })
-  }, [])
+  }, [totalSharkCount])
   
   if (isLoading) {
     return (
@@ -36,7 +38,7 @@ const Shark = () => {
       <Wrapper className={styles.root}>
         <h2 className={styles.title}>Welcome to Team Shark!</h2>
         <Spacer size={2} axis="vertical" />
-        <p className={styles.tagline}>You and {totalSharkCount} people made the right choice...</p>
+        <p className={styles.tagline}><b>{((totalSharkCount/totalVoteCount)*100).toFixed(1)}%</b> of people agree that Sharks are Scarier than Snakes.</p>
       </Wrapper>
   )
 };

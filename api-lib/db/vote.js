@@ -15,9 +15,9 @@ export async function insertVote(db,{ content, creatorId, ip },voteId) {
 
 export async function getVoteCount(db,vote) {
   if(vote){
-    return await db.collection('votes').find({content:vote}).count()  
+    return await db.collection('votes').countDocuments({'content':vote})  
   }
-  return await db.collection('votes').count()
+  return await db.collection('votes').countDocuments()
   //console.log(totalVoteCount)
 }
 
