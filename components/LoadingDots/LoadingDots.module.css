@@ -8,8 +8,8 @@
   animation-duration: 1.4s;
   animation-iteration-count: infinite;
   animation-fill-mode: both;
-  width: 4px;
-  height: 4px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background-color: var(--accents-6);
   display: inline-block;

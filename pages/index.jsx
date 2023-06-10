@@ -16,7 +16,7 @@ export default function Index() {
   return (
     <>
   <Head>
-    <title>Vote</title>
+    <title>Snakes vs Sharks</title>
   </Head>
   <Vote />
   </>

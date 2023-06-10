@@ -9,14 +9,15 @@ const handler = nc(ncOpts);
 handler.use(database);
 
 handler.post((req, res) => {
-  console.log(req.body)
+  //console.log(req.body)
   insertVote(req.db,{content:req.body.vote,creatorId:'me',ip:req.body.clientIP})
   .then(() => {return res.status(200).json({ vote:req.body.vote})})
   .catch((e) => {return res.status(500).json({e,msg:"Failed to log vote"})}) 
 });
 
 handler.get((req,res) => {
-  getVoteCount(req.db)
+  //console.log(req.query)
+  getVoteCount(req.db,req.query.vote)
   .then((data) => {
     console.log(data)
     return res.status(200).json({ totalVoteCount:data})

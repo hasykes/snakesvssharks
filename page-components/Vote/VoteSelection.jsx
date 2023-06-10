@@ -8,44 +8,52 @@ import { fetcher } from '@/lib/fetch';
 import toast from 'react-hot-toast';
 import { setCookie,getCookie } from 'cookies-next';
 import { useState,useEffect } from 'react';
+import { useRouter } from 'next/router';
+import useWindowDimensions from '../../hooks/windowSize';
 
-
-
-const castVote = async (vote) => {
-  const previousVoteCookie = getCookie('vote');
-
-  if(previousVoteCookie){
-    toast.error(`You're already on Team ${previousVoteCookie}!`)
-  }else{
-    const clientIP = await getClientIP();
-    try {
-      await fetcher('/api/vote', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({vote,clientIP}),
-      });
-      setCookie('vote',vote,{maxAge:10 * 365 * 24 * 60 * 60})//set a cookie that expires forever from now
-      toast.success(`Team ${vote}!`);
-    } catch (e) {
-      toast.error(e.message);
-    }
-}
-}
-
-const getClientIP = async () => {
-  const { ip } = await fetch('https://api.ipify.org?format=json', { method: 'GET' })
-      .then(res => res.json())
-      .catch(error => console.error(error));
-  
-  return ip || "0.0.0.0";
-}
-
-
-const VoteSelection = () => {
+function VoteSelection () {
   const [totalVoteCount,setTotalVoteCount] = useState(0);
+  const [hasVoted, setHasVoted] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [voteCookie, setVoteCookie] = useState(getCookie('vote'));
+  const router = useRouter();
+
+  if(typeof window !== "undefined"){ //check if window object is available
+    var { height, width } = useWindowDimensions(); 
+ }
+
+  const castVote = async (vote) => {
+  
+    if(voteCookie || hasVoted){
+      toast.error(`You're already on Team ${voteCookie}!`)
+      //router.push(`/team${previousVoteCookie}`);
+    }else{
+      const clientIP = await getClientIP();
+      try {
+        await fetcher('/api/vote', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({vote,clientIP}),
+        });
+        setCookie('vote',vote,{maxAge:10 * 365 * 24 * 60 * 60})//set a cookie that expires forever from now
+        setVoteCookie(vote);
+        toast.success(`Team ${vote}!`);
+        setHasVoted(true)
+      } catch (e) {
+        toast.error(e.message);
+      }
+  }
+  }
+  
+  const getClientIP = async () => {
+    const { ip } = await fetch('https://api.ipify.org?format=json', { method: 'GET' })
+        .then(res => res.json())
+        .catch(error => console.error(error));
+    
+    return ip || "0.0.0.0";
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -55,38 +63,85 @@ const VoteSelection = () => {
         setTotalVoteCount(data.totalVoteCount)
         setLoading(false)
       })
-  }, [])
+    //console.log('useEffect',voteCookie)
+    if(voteCookie){
+      //console.log('hasVoted',hasVoted)
+      if(!hasVoted){setHasVoted(true)}
+      router.push(`/team${voteCookie}`)
+    }
+  }, [hasVoted])
  
-  if (isLoading) return <LoadingDots />
- 
-  return (
-    <Wrapper className={styles.root}>
-      <h1 className={styles.title}>Which are Scarier?</h1>
-      <Spacer size={2} axis="vertical" />
-       <Container row alignItems="center" justifyContent="center">
-        <Card
-          imageUrl="/images/snake.jpg"
-          title="Snakes"
-          alt="Slithery little snake"
-          onClick={() => castVote('snake')}
-        />
-        <Spacer size={3} axis="horizontal" />
-        <Container>
-          <span>OR</span>
-        </Container>
-        <Spacer size={3} axis="horizontal" />
-        <Card
-          imageUrl="/images/shark.jpg"
-          title="Sharks"
-          alt="Spooky shark boi"
-          onClick={() => castVote('shark')}
-        />
+  if (isLoading) {
+    return (
+    <>
+     <Container column alignItems="center" justifyContent="center">
+        <Spacer size={4} axis="vertical"/>
+        <h1>Snakes vs Sharks</h1>
+        <LoadingDots />
       </Container>
-      <Spacer size={2} axis="vertical" />
-      <p className={styles.tagline}>{totalVoteCount} people have made their choice...</p>
-      <p className={styles.tagline}>Which side will you choose?</p>
-    </Wrapper>
-  );
+    </>
+    )
+  }
+
+  if(width > 700){
+    return (
+      <Wrapper className={styles.root}>
+        <h2 className={styles.title}>Which are Scarier?</h2>
+        <Spacer size={2} axis="vertical" />
+         <Container row alignItems="center" justifyContent="center">
+          <Card
+            imageUrl="/images/snake.jpg"
+            title="Snakes"
+            alt="Slithery little snake"
+            onClick={() => castVote('snake')}
+          />
+          <Spacer size={2} axis="horizontal" />
+          <Container>
+            <span>OR</span>
+          </Container>
+          <Spacer size={2} axis="horizontal" />
+          <Card
+            imageUrl="/images/shark.jpg"
+            title="Sharks"
+            alt="Spooky shark boi"
+            onClick={() => castVote('shark')}
+          />
+        </Container>
+        <Spacer size={2} axis="vertical" />
+        <p className={styles.tagline}>{totalVoteCount} people have made their choice...</p>
+        <p className={styles.tagline}>Which side will you choose?</p>
+      </Wrapper>
+    );
+  }else{
+    return (
+      <Wrapper className={styles.root}>
+        <h2 className={styles.title}>Which are Scarier?</h2>
+        <Spacer size={1} axis="vertical" />
+         <Container column alignItems="center" justifyContent="center">
+          <Card
+            imageUrl="/images/snake.jpg"
+            title="Snakes"
+            alt="Slithery little snake"
+            onClick={() => castVote('snake')}
+          />
+          <Spacer size={1} axis="vertical" />
+          <Container>
+            <span>OR</span>
+          </Container>
+          <Spacer size={1} axis="vertical" />
+          <Card
+            imageUrl="/images/shark.jpg"
+            title="Sharks"
+            alt="Spooky shark boi"
+            onClick={() => castVote('shark')}
+          />
+        </Container>
+        <Spacer size={2} axis="vertical" />
+        <p className={styles.tagline}>{totalVoteCount} people have made their choice...</p>
+        <p className={styles.tagline}>Which side will you choose?</p>
+      </Wrapper>
+    );
+  }
 };
 /*
 const VoteSelection = ({ valid }) => {

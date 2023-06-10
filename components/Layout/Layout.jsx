@@ -28,7 +28,8 @@ const Layout = ({ children }) => {
           content=""//TODO
         />
       </Head>
-      <Spacer size={3} axis="vertical"/> 
+      <Spacer size={1} axis="vertical"/> 
+      <h1 className={styles.title}>Snakes vs Sharks</h1>
       <main className={styles.main}>{children}</main>
       
     </>
