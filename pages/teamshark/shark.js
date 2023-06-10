@@ -39,6 +39,7 @@ const Shark = () => {
         <h2 className={styles.title}>Welcome to Team Shark!</h2>
         <Spacer size={2} axis="vertical" />
         <p className={styles.tagline}><b className={styles.percent}>{((totalSharkCount/totalVoteCount)*100).toFixed(1)}%</b> of people agree that Sharks are Scarier than Snakes.</p>
+        
       </Wrapper>
   )
 };
