@@ -10,7 +10,14 @@ handler.use(database);
 
 handler.post((req, res) => {
   //console.log(req.body)
-  insertVote(req.db,{content:req.body.vote,creatorId:'me',ip:req.body.clientIP})
+  insertVote(req.db,{
+    content:req.body.vote,
+    creatorId:req.body.creatorId,
+    ip:req.body.clientIP,
+    fingerprint:req.body.fingerprint,
+    fpConfidence:req.body.fpConfidence,
+    visitorId:req.body.visitorId
+  })
   .then(() => {return res.status(200).json({ vote:req.body.vote})})
   .catch((e) => {return res.status(500).json({e,msg:"Failed to log vote"})}) 
 });

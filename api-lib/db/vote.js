@@ -1,12 +1,15 @@
 import { ObjectId } from 'mongodb';
 
-export async function insertVote(db,{ content, creatorId, ip },voteId) {
+export async function insertVote(db,{ content, creatorId, ip, fingerprint,fpConfidence,visitorId },voteId) {
   const vote = {
     content,
     voteId: new ObjectId(voteId),
     creatorId,
     createdAt: new Date(),
-    ip
+    ip,
+    fingerprint,
+    fpConfidence,
+    visitorId
   };
   const { insertedId } = await db.collection('votes').insertOne(vote);
   vote._id = insertedId;
