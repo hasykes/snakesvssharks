@@ -10,32 +10,46 @@ import { setCookie,getCookie } from 'cookies-next';
 import { useState,useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useWindowDimensions from '../../hooks/windowSize';
+import { hashComponents } from '@fingerprintjs/fingerprintjs';
 
 function VoteSelection () {
   const [totalVoteCount,setTotalVoteCount] = useState(0);
   const [hasVoted, setHasVoted] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [voteCookie, setVoteCookie] = useState(getCookie('vote'));
+  const [calledPush, setCalledPush] = useState(false);
+  const [fingerPrint,setFingerPrint] = useState()
+  const [clientIPCookie,setClientIPCookie] = useState(getCookie('clientIP'))
+  const [clientIdCookie,setClientIdCookie] = useState(getCookie('clientId'))
   const router = useRouter();
 
-  if(typeof window !== "undefined"){ //check if window object is available
-    var { height, width } = useWindowDimensions(); 
- }
+  const getClientIP = async () => {
+    const { ip } = await fetch('https://api.ipify.org?format=json', { method: 'GET' })
+        .then(res => res.json())
+        .catch(error => console.error(error));
+    
+    return ip || "0.0.0.0";
+  }
 
   const castVote = async (vote) => {
-  
     if(voteCookie || hasVoted){
       toast.error(`You're already on Team ${voteCookie}!`)
       //router.push(`/team${previousVoteCookie}`);
     }else{
-      const clientIP = await getClientIP();
       try {
         await fetcher('/api/vote', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({vote,clientIP}),
+          body: JSON.stringify({
+            vote,
+            clientIP:clientIPCookie,
+            fingerprint:fingerPrint.components,
+            fpConfidence:fingerPrint.confidence,
+            visitorId:fingerPrint.visitorId,
+            creatorId:clientIdCookie
+          }),
         });
         setCookie('vote',vote,{maxAge:10 * 365 * 24 * 60 * 60})//set a cookie that expires forever from now
         setVoteCookie(vote);
@@ -46,15 +60,32 @@ function VoteSelection () {
       }
   }
   }
-  
-  const getClientIP = async () => {
-    const { ip } = await fetch('https://api.ipify.org?format=json', { method: 'GET' })
-        .then(res => res.json())
-        .catch(error => console.error(error));
-    
-    return ip || "0.0.0.0";
-  }
 
+  if(typeof window !== "undefined"){ //check if window object is available
+    var { height, width } = useWindowDimensions();
+
+    if(!clientIPCookie){
+      getClientIP()
+      .then(ip => {
+        setCookie('clientIP',ip,{maxAge:10 * 365 * 24 * 60 * 60})
+        setClientIPCookie(ip)
+      })
+      .catch(err => console.log(err,"ip fail"))
+    }
+
+    if(!fingerPrint){
+      import('@fingerprintjs/fingerprintjs')
+      .then(FingerprintJS => FingerprintJS.load())
+      .then(fp => fp.get())
+      .then(result => {
+        //results.visitorId contains unique value.  Regen with hash after adding IP
+        setFingerPrint(result)
+      })
+      .catch(err => console.log(err,"fp failed"))
+    }
+    
+ }
+  
   useEffect(() => {
     setLoading(true)
     fetch('/api/vote')
@@ -64,12 +95,23 @@ function VoteSelection () {
         setLoading(false)
       })
     //console.log('useEffect',voteCookie)
+    if((fingerPrint && clientIPCookie) && !clientIdCookie){ //if both values exist, we have the needed data to hash
+      const newFpComponents = {...fingerPrint.components};
+      newFpComponents.ip = clientIPCookie;
+      const componentHash = hashComponents(newFpComponents)
+      setCookie('clientId',componentHash,{maxAge:10 * 365 * 24 * 60 * 60});
+      setClientIdCookie(componentHash);      
+    } 
+
     if(voteCookie){
       //console.log('hasVoted',hasVoted)
       if(!hasVoted){setHasVoted(true)}
+
+      if(calledPush){return;}
+      setCalledPush(true);
       router.push(`/team${voteCookie}`)
     }
-  }, [hasVoted])
+  }, [hasVoted,fingerPrint,clientIPCookie])
  
   if (isLoading) {
     return (
