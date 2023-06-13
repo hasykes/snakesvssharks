@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast';
 export default function MyApp({ Component, pageProps }) {
 
   return (
-    <ThemeProvider>
+    <ThemeProvider forcedTheme = 'dark'>
       <Layout>
         <Component {...pageProps} />
         <Toaster />
