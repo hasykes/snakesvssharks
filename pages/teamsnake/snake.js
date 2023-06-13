@@ -1,9 +1,10 @@
-import { Container, Spacer, Wrapper} from '@/components/Layout';
+import { Spacer, Wrapper} from '@/components/Layout';
 import { LoadingDots } from '@/components/LoadingDots';
 import styles from './teamsnake.module.css';
 import { getCookie } from 'cookies-next';
 import { useEffect,useState } from 'react';
 import { useRouter } from 'next/router';
+import {Loading} from '@/page-components/Loading'
 
 
 const Snake = () => {
@@ -30,15 +31,7 @@ const Snake = () => {
   }, [])
   
   if (isLoading) {
-    return (
-    <>
-     <Container column alignItems="center" justifyContent="center">
-        <Spacer size={4} axis="vertical"/>
-        <h1>Snakes vs Sharks</h1>
-        <LoadingDots />
-      </Container>
-    </>
-    )
+    return <Loading />
   }
 
   return (

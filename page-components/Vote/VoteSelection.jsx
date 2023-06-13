@@ -118,7 +118,7 @@ function VoteSelection () {
     <>
      <Container column alignItems="center" justifyContent="center">
         <Spacer size={4} axis="vertical"/>
-        <h1>Snakes vs Sharks</h1>
+        <image src="/images/snakesvssharkslogo.png" alt="snake and a shark fighting to the death"/>
         <LoadingDots />
       </Container>
     </>
