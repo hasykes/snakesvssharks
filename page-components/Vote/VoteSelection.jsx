@@ -11,6 +11,7 @@ import { useState,useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useWindowDimensions from '../../hooks/windowSize';
 import { hashComponents } from '@fingerprintjs/fingerprintjs';
+import { Loading } from '../Loading';
 
 function VoteSelection () {
   const [totalVoteCount,setTotalVoteCount] = useState(0);
@@ -114,15 +115,7 @@ function VoteSelection () {
   }, [hasVoted,fingerPrint,clientIPCookie])
  
   if (isLoading) {
-    return (
-    <>
-     <Container column alignItems="center" justifyContent="center">
-        <Spacer size={4} axis="vertical"/>
-        <image src="/images/snakesvssharkslogo.png" alt="snake and a shark fighting to the death"/>
-        <LoadingDots />
-      </Container>
-    </>
-    )
+    return <Loading />  
   }
 
   if(width > 700){
