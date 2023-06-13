@@ -1,5 +1,4 @@
-import { Spacer, Wrapper} from '@/components/Layout';
-import { LoadingDots } from '@/components/LoadingDots';
+import { Wrapper} from '@/components/Layout';
 import styles from './teamsnake.module.css';
 import { getCookie } from 'cookies-next';
 import { useEffect,useState } from 'react';
