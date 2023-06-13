@@ -5,10 +5,13 @@ import { getCookie } from 'cookies-next';
 import { useEffect,useState } from 'react';
 import { useRouter } from 'next/router';
 import {Loading} from '@/page-components/Loading'
+//import { EmailForm } from '@/components/EmailForm';
+import { Team } from '@/components/Team';
+
 
 
 const Snake = () => {
-  const [totalSnakeCount,setTotalSnakeCount] = useState(0);
+  const [totalTeamCount,setTotalTeamCount] = useState(0);
   const [totalVoteCount,setTotalVoteCount] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [voteCookie] = useState(getCookie('vote'));
@@ -21,10 +24,10 @@ const Snake = () => {
     if(!voteCookie){ //take them to main page if they haven't voted
       router.push(`/`)
     }
-    fetch(`/api/vote?vote=snake`)
+    fetch(`/api/vote?vote=${voteCookie}`)
       .then((res) => res.json())
       .then((data) => {
-        setTotalSnakeCount(data.totalTeamCount)
+        setTotalTeamCount(data.totalTeamCount)
         setTotalVoteCount(data.totalVoteCount)
         setLoading(false)
       })
@@ -36,10 +39,8 @@ const Snake = () => {
 
   return (
       <Wrapper className={styles.root}>
-        <h2 className={styles.title}>Welcome to Team Snake!</h2>
-        <Spacer size={2} axis="vertical" />
-        <p className={styles.tagline}><b className={styles.percent}>{((totalSnakeCount/totalVoteCount)*100).toFixed(1)}%</b> of people agree that Snakes are Scarier than Sharks.</p>
-        <p className={styles.tagline}>Support your team and <b className={styles.percent}>share with your friends</b></p>
+       <Team teamName={voteCookie} teamVotePercentage={((totalTeamCount/totalVoteCount)*100).toFixed(1)} />
+     
       </Wrapper>
   )
 };

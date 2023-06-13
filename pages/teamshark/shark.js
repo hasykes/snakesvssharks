@@ -5,10 +5,11 @@ import { useEffect,useState } from 'react';
 import { useRouter } from 'next/router';
 import { Loading } from '@/page-components/Loading'
 import { EmailForm } from '@/components/EmailForm';
+import { Team } from '@/components/Team';
 
 
 const Shark = () => {
-  const [totalSharkCount,setTotalSharkCount] = useState(0);
+  const [totalTeamCount,setTotalTeamCount] = useState(0);
   const [totalVoteCount,setTotalVoteCount] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [voteCookie] = useState(getCookie('vote'));
@@ -22,10 +23,10 @@ const Shark = () => {
       router.push(`/`)
     }
 
-    fetch(`/api/vote?vote=shark`)
+    fetch(`/api/vote?vote=${voteCookie}`)
       .then((res) => res.json())
       .then((data) => {
-        setTotalSharkCount(data.totalTeamCount)
+        setTotalTeamCount(data.totalTeamCount)
         setTotalVoteCount(data.totalVoteCount)
         setLoading(false)
       })
@@ -39,11 +40,7 @@ const Shark = () => {
 
   return (
       <Wrapper className={styles.root}>
-        <h2 className={styles.title}>Welcome to Team Shark!</h2>
-        <Spacer size={2} axis="vertical" />
-        <p className={styles.tagline}><b className={styles.percent}>{((totalSharkCount/totalVoteCount)*100).toFixed(1)}%</b> of people agree that Sharks are Scarier than Snakes.</p>
-        <p className={styles.tagline}>Support your team and <b className={styles.percent}>share with your friends</b></p>
-        <Spacer size={2} axis="vertical" />
+        <Team teamName={voteCookie} teamVotePercentage={((totalTeamCount/totalVoteCount)*100).toFixed(1)}/>
         <EmailForm/>
       </Wrapper>
   )
