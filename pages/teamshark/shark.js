@@ -4,6 +4,7 @@ import { getCookie } from 'cookies-next';
 import { useEffect,useState } from 'react';
 import { useRouter } from 'next/router';
 import { Loading } from '@/page-components/Loading'
+import { EmailForm } from '@/components/EmailForm';
 
 
 const Shark = () => {
@@ -42,6 +43,8 @@ const Shark = () => {
         <Spacer size={2} axis="vertical" />
         <p className={styles.tagline}><b className={styles.percent}>{((totalSharkCount/totalVoteCount)*100).toFixed(1)}%</b> of people agree that Sharks are Scarier than Snakes.</p>
         <p className={styles.tagline}>Support your team and <b className={styles.percent}>share with your friends</b></p>
+        <Spacer size={2} axis="vertical" />
+        <EmailForm/>
       </Wrapper>
   )
 };
