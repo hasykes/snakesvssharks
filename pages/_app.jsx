@@ -2,6 +2,7 @@ import '@/assets/base.css';
 import { Layout } from '@/components/Layout';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function MyApp({ Component, pageProps }) {
 
@@ -11,6 +12,7 @@ export default function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
         <Toaster />
       </Layout>
+      <Analytics />
     </ThemeProvider>
   );
 }
