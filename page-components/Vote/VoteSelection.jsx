@@ -7,10 +7,11 @@ import Link from 'next/link';
 import { fetcher } from '@/lib/fetch';
 import toast from 'react-hot-toast';
 import { setCookie,getCookie } from 'cookies-next';
-import { useState,useEffect } from 'react';
+import { useState,useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import useWindowDimensions from '../../hooks/windowSize';
 import { hashComponents } from '@fingerprintjs/fingerprintjs';
+import { Loading } from '../Loading';
 
 function VoteSelection () {
   const [totalVoteCount,setTotalVoteCount] = useState(0);
@@ -37,7 +38,7 @@ function VoteSelection () {
       //router.push(`/team${previousVoteCookie}`);
     }else{
       try {
-        await fetcher('/api/vote', {
+        const voteRes = await fetcher('/api/vote', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -51,10 +52,21 @@ function VoteSelection () {
             creatorId:clientIdCookie
           }),
         });
-        setCookie('vote',vote,{maxAge:10 * 365 * 24 * 60 * 60})//set a cookie that expires forever from now
-        setVoteCookie(vote);
-        toast.success(`Team ${vote}!`);
-        setHasVoted(true)
+        
+        if(voteRes.vote){
+          setCookie('vote',voteRes.vote,{maxAge:10 * 365 * 24 * 60 * 60})//set a cookie that expires forever from now
+          setCookie('clientIP',voteRes.ip,{maxAge:10 * 365 * 24 * 60 * 60})//set a cookie that expires forever from now
+          setCookie('clientId',voteRes.creatorId,{maxAge:10 * 365 * 24 * 60 * 60})//set a cookie that expires forever from now
+          setVoteCookie(voteRes.vote);
+          toast.error(voteRes.message);
+          setHasVoted(true);
+        }else{
+          setCookie('vote',vote,{maxAge:10 * 365 * 24 * 60 * 60})//set a cookie that expires forever from now
+          setVoteCookie(vote);
+          toast.success(`Team ${vote}!`);
+          setHasVoted(true)
+        }
+
       } catch (e) {
         toast.error(e.message);
       }
@@ -87,13 +99,8 @@ function VoteSelection () {
  }
   
   useEffect(() => {
+    if(calledPush){return;}
     setLoading(true)
-    fetch('/api/vote')
-      .then((res) => res.json())
-      .then((data) => {
-        setTotalVoteCount(data.totalVoteCount)
-        setLoading(false)
-      })
     //console.log('useEffect',voteCookie)
     if((fingerPrint && clientIPCookie) && !clientIdCookie){ //if both values exist, we have the needed data to hash
       const newFpComponents = {...fingerPrint.components};
@@ -104,25 +111,21 @@ function VoteSelection () {
     } 
 
     if(voteCookie){
-      //console.log('hasVoted',hasVoted)
-      if(!hasVoted){setHasVoted(true)}
-
-      if(calledPush){return;}
       setCalledPush(true);
       router.push(`/team${voteCookie}`)
     }
+
+    fetch('/api/vote')
+    .then((res) => res.json())
+    .then((data) => {
+      setTotalVoteCount(data.totalVoteCount)
+      setLoading(false)
+    })
+
   }, [hasVoted,fingerPrint,clientIPCookie])
  
   if (isLoading) {
-    return (
-    <>
-     <Container column alignItems="center" justifyContent="center">
-        <Spacer size={4} axis="vertical"/>
-        <h1>Snakes vs Sharks</h1>
-        <LoadingDots />
-      </Container>
-    </>
-    )
+    return <Loading />  
   }
 
   if(width > 700){
