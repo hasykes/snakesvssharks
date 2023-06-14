@@ -1,0 +1,11 @@
+.title{
+    width:100%;
+    text-align:center;
+    color:crimson;
+}
+
+.imageContainer{
+    display:flex;
+    justify-content: center;
+}
+
