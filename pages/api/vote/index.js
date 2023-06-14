@@ -1,6 +1,6 @@
 
 import {database} from '@/api-lib/middlewares';
-import { insertVote,getVoteCount } from '@/api-lib/db';
+import { insertVote,getVoteCount,validateVote } from '@/api-lib/db';
 import { ncOpts } from '@/api-lib/nc';
 import nc from 'next-connect';
 
@@ -10,16 +10,29 @@ handler.use(database);
 
 handler.post((req, res) => {
   //console.log(req.body)
-  insertVote(req.db,{
-    content:req.body.vote,
-    creatorId:req.body.creatorId,
-    ip:req.body.clientIP,
-    fingerprint:req.body.fingerprint,
-    fpConfidence:req.body.fpConfidence,
-    visitorId:req.body.visitorId
+  const existingVotes = validateVote(req.db,{creatorId:req.body.creatorId})
+  existingVotes.then(votes => {
+    if(votes.length > 0){
+      return res.status(200).json({message:"You have already voted",ip:votes[0].ip,creatorId:votes[0].creatorId,vote:votes[0].content})
+    }
+
+    insertVote(req.db,{
+      content:req.body.vote,
+      creatorId:req.body.creatorId,
+      ip:req.body.clientIP,
+      fingerprint:req.body.fingerprint,
+      fpConfidence:req.body.fpConfidence,
+      visitorId:req.body.visitorId
+    })
+    .then(() => {return res.status(200).json({ vote:req.body.vote})})
+    .catch((e) => {return res.status(500).json({e,msg:"Failed to log vote"})}) 
+
   })
-  .then(() => {return res.status(200).json({ vote:req.body.vote})})
-  .catch((e) => {return res.status(500).json({e,msg:"Failed to log vote"})}) 
+ 
+
+  
+    
+  
 });
 
 handler.get(async (req,res) => {

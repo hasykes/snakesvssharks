@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { ConnectionPoolReadyEvent, ObjectId } from 'mongodb';
 
 export async function insertVote(db,{ content, creatorId, ip, fingerprint,fpConfidence,visitorId },voteId) {
   const vote = {
@@ -11,9 +11,18 @@ export async function insertVote(db,{ content, creatorId, ip, fingerprint,fpConf
     fpConfidence,
     visitorId
   };
+
+  //const matchingVistorID = await db.collection('votes').countDocuments({visitorId})
+ 
   const { insertedId } = await db.collection('votes').insertOne(vote);
   vote._id = insertedId;
   return vote;
+}
+
+export async function validateVote(db,{ip,creatorId}) {
+  const matchingVistorID = await db.collection('votes').find({creatorId}).toArray();//check if a creatorID exists
+
+  return matchingVistorID;
 }
 
 export async function getVoteCount(db,vote) {

@@ -14,13 +14,16 @@ const Snake = () => {
   const [totalVoteCount,setTotalVoteCount] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [voteCookie] = useState(getCookie('vote'));
+  const [calledPush, setCalledPush] = useState(false);
   const router = useRouter();
 
   //console.log(totalSnakeCount);
 
   useEffect(() => {
+    if(calledPush){return;}
     setLoading(true)
     if(!voteCookie){ //take them to main page if they haven't voted
+      setCalledPush(true);
       router.push(`/`)
     }
     fetch(`/api/vote?vote=${voteCookie}`)
