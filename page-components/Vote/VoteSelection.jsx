@@ -99,8 +99,9 @@ function VoteSelection () {
  }
   
   useEffect(() => {
+    
+    setLoading(true);
     if(calledPush){return;}
-    setLoading(true)
     //console.log('useEffect',voteCookie)
     if((fingerPrint && clientIPCookie) && !clientIdCookie){ //if both values exist, we have the needed data to hash
       const newFpComponents = {...fingerPrint.components};
@@ -111,8 +112,8 @@ function VoteSelection () {
     } 
 
     if(voteCookie){
-      setCalledPush(true);
       router.push(`/team${voteCookie}`)
+      setCalledPush(true);
     }
 
     fetch('/api/vote')
@@ -124,7 +125,7 @@ function VoteSelection () {
 
   }, [hasVoted,fingerPrint,clientIPCookie])
  
-  if (isLoading) {
+  if (isLoading || calledPush || voteCookie) {
     return <Loading />  
   }
 
