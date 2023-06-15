@@ -33,6 +33,9 @@ export async function getVoteCount(db,vote) {
   //console.log(totalVoteCount)
 }
 
+export async function updateEmail(db,email,creatorId){
+  return await db.collection('votes').updateOne({creatorId:creatorId},{$set:{email:email}})
+}
 
 /*
 export async function findComments(db, postId, before, limit = 10) {
