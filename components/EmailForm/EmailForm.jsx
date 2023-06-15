@@ -1,5 +1,5 @@
 import styles from './EmailForm.module.css';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { fetcher } from '@/lib/fetch';
 import { getCookie } from 'cookies-next';
 import { toast } from 'react-hot-toast';
@@ -30,12 +30,14 @@ export const EmailForm = () => {
           creatorId:getCookie('clientId')
         }),
       })
-      .then(res => {
+      .then(() => {
         toast.success('Email Saved!')
       })
-      .catch(e => {
+      .catch((e) => {
+        console.error(e)
         toast.error('Error Saving Email - Try Again!')
         setIsValid(false);
+        setEmailSaved(false);
         setTimeout(() => {
           setIsValid(true);
         }, 500);
