@@ -4,7 +4,7 @@ import { getCookie } from 'cookies-next';
 import { useEffect,useState } from 'react';
 import { useRouter } from 'next/router';
 import { Loading } from '@/page-components/Loading'
-//import { EmailForm } from '@/components/EmailForm';
+import { EmailForm } from '@/components/EmailForm';
 import { Team } from '@/components/Team';
 
 
@@ -44,7 +44,7 @@ const Shark = () => {
   return (
       <Wrapper className={styles.root}>
         <Team teamName={voteCookie} teamVotePercentage={((totalTeamCount/totalVoteCount)*100).toFixed(1)}/>
-        
+        <EmailForm />
       </Wrapper>
   )
 };
