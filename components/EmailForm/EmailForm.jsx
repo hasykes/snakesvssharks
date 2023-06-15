@@ -1,5 +1,5 @@
 import styles from './EmailForm.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { fetcher } from '@/lib/fetch';
 import { getCookie } from 'cookies-next';
 import { toast } from 'react-hot-toast';
@@ -17,8 +17,8 @@ export const EmailForm = () => {
 
     // Email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
     if (emailRegex.test(email)) {
-      setIsValid(true);
       setEmailSaved(true);
       fetcher('/api/email', {
         method: 'POST',
@@ -36,12 +36,18 @@ export const EmailForm = () => {
       .catch(e => {
         toast.error('Error Saving Email - Try Again!')
         setIsValid(false);
+        setTimeout(() => {
+          setIsValid(true);
+        }, 500);
 
       });
 
       // Perform additional actions, such as submitting the form
     } else {
       setIsValid(false);
+      setTimeout(() => { //reset state after animation finishes
+        setIsValid(true);
+      }, 500);
     }
   };
 

@@ -55,7 +55,19 @@ export const Team = () => {
       return <Loading/>
     }
   
-    
+    if(!emailExists){
+      return (
+        <Wrapper className={styles.root}>
+          <h2 className={styles.title}>Welcome to Team {voteCookie}!</h2>
+          <Spacer size={2} axis="vertical" />
+          <p className={styles.tagline}><b className={styles.percent}>{((totalTeamCount/totalVoteCount)*100).toFixed(1)}%</b> of people agree that <b className={styles.percent}>{currentTeam}s are Scarier than {opposingTeam}s.</b></p>
+          <p className={styles.tagline}>Support your team and <b className={styles.percent}>share with your friends</b></p>
+          <Spacer size={2} axis="vertical" />
+          <EmailForm />
+        </Wrapper>
+      )
+    }
+
     return (
         <Wrapper className={styles.root}>
           <h2 className={styles.title}>Welcome to Team {voteCookie}!</h2>
@@ -63,7 +75,6 @@ export const Team = () => {
           <p className={styles.tagline}><b className={styles.percent}>{((totalTeamCount/totalVoteCount)*100).toFixed(1)}%</b> of people agree that <b className={styles.percent}>{currentTeam}s are Scarier than {opposingTeam}s.</b></p>
           <p className={styles.tagline}>Support your team and <b className={styles.percent}>share with your friends</b></p>
           <Spacer size={2} axis="vertical" />
-          {emailExists ? <></>:<EmailForm />}
         </Wrapper>
     )
 };

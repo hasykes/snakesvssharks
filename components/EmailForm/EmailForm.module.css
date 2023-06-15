@@ -65,6 +65,7 @@
   }
   
   .button:hover {
-    background-color: #1d6fa5;
+    background-color: #fcd2da;
+    color:crimson;
   }
   
