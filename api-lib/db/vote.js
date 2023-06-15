@@ -33,6 +33,16 @@ export async function getVoteCount(db,vote) {
   //console.log(totalVoteCount)
 }
 
+export async function getEmailExists(db,creatorId){
+  const matchingCreatorId =  await db.collection('votes').find({creatorId:creatorId}).toArray();
+  
+  if (matchingCreatorId[0].email){
+    return true;
+  }
+
+  return false;
+}
+
 export async function updateEmail(db,email,creatorId){
   return await db.collection('votes').updateOne({creatorId:creatorId},{$set:{email:email}})
 }
