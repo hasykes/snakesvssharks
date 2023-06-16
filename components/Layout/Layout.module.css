@@ -1,5 +1,12 @@
 .main {
   padding-top: 48px;
+  flex:1;
+}
+
+.fullScreen{
+  min-height:100vh;
+  display:flex;
+  flex-direction: column;
 }
 
 .title{
@@ -9,3 +16,4 @@
   padding:0;
   margin:0;
 }
+

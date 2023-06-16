@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Spacer } from '.';
-//import Footer from './Footer';
+import Footer from './Footer';
 import styles from './Layout.module.css';
 //import Nav from './Nav';
 
@@ -28,10 +28,12 @@ const Layout = ({ children }) => {
           content=""//TODO
         />
       </Head>
-      <Spacer size={1} axis="vertical"/> 
-      <h1 className={styles.title}>Snakes vs Sharks</h1>
-      <main className={styles.main}>{children}</main>
-      
+      <div className={styles.fullScreen}>
+        <Spacer size={1} axis="vertical"/> 
+        <h1 className={styles.title}>Snakes vs Sharks</h1>
+        <main className={styles.main}>{children}</main>
+        <Footer/>
+      </div>
     </>
   );
 };
