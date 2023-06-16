@@ -1,7 +1,7 @@
 {
-  "name": "nextjs-mongodb-app",
+  "name": "snakes-vs-sharks",
   "version": "1.0.0",
-  "description": "Full fledged app made with Next.JS and MongoDB",
+  "description": "An attempt at answering the age old questions - which is scarier, snakes or sharks?",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hoangvvo/nextjs-mongodb-app.git"
+    "url": ""
   },
-  "author": "Hoang Vo (https://hoangvvo.com)",
+  "author": "Hayden Sykes",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hoangvvo/nextjs-mongodb-app/issues"
+    "url": " "
   },
-  "homepage": "https://github.com/hoangvvo/nextjs-mongodb-app#readme",
+  "homepage": "",
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^3.4.1",
     "@lukeed/ms": "^2.0.0",
