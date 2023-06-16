@@ -5,7 +5,7 @@ const Snake = () => {
 
   return (
       
-       <Team  />
+       <Team teamName="snake" />
 
   )
 };

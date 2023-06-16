@@ -4,9 +4,7 @@ import { Team } from '@/components/Team';
 const Shark = () => {
   
   return (
-      
-        <Team />
-
+        <Team teamName="shark" />
   )
 };
 
