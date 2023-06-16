@@ -1,9 +1,6 @@
 import { Container, Spacer, Wrapper} from '@/components/Layout';
-import { LoadingDots } from '@/components/LoadingDots';
 import { Card } from '@/components/Card'
-import { Text } from '@/components/Text';
 import styles from './VoteSelection.module.css';
-import Link from 'next/link';
 import { fetcher } from '@/lib/fetch';
 import toast from 'react-hot-toast';
 import { setCookie,getCookie } from 'cookies-next';

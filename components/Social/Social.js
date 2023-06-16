@@ -5,6 +5,8 @@ import twitter from "../../public/images/twitter.svg"
 import reddit from "../../public/images/reddit.svg"
 import email from "../../public/images/email.svg"
 import facebook from "../../public/images/facebook.svg"
+import copyLink from "../../public/images/copyLink.svg"
+import toast from 'react-hot-toast';
 
 export const Social = (props) => {
   const twitterString = `
@@ -13,9 +15,16 @@ export const Social = (props) => {
   #Team${props.currentTeam} #SharksvsSnakes #SnakesvsSharks #SharksAreScarierThanSnakes
   `
   const redditString = `https://${props.currentTeam === "Shark" ? "sharksvssnakes.com":"snakesvssharks.com"}&title=${props.currentTeam}s are scarier than ${props.opposingTeam}s! Which side are you on? `
-  
   const emailString = `subject=${props.currentTeam}s are scarier than ${props.opposingTeam}s! Which side are you on?&body=Choose your team on https://${props.currentTeam === "Shark" ? "sharksvssnakes.com":"snakesvssharks.com"}`
-  
+  const copyLinkString = ` 
+  ${props.currentTeam}s are scarier than ${props.opposingTeam}s! Which side are you on? 
+  https://${props.currentTeam === "Shark" ? "sharksvssnakes.com":"snakesvssharks.com"}
+  `
+  const copyLinkToClipboard = () => {
+    navigator.clipboard.writeText(copyLinkString);
+    toast.success("Link Copied to Clipboard!")
+  }
+
   return <>
   <Container row alignItems="center" justifyContent="center">
     <a  
@@ -44,11 +53,13 @@ export const Social = (props) => {
     >
         <img src={email} />
     </a>
+    <span 
+    onClick={copyLinkToClipboard}
+    className={styles.icon}
+    >
+        <img src={copyLink} />
+    </span>
 
   </Container>
   </>
 };
-
-/*<a class="twitter-share-button"
-  href="https://twitter.com/intent/tweet?text=Hello%20world">
-Tweet</a> */
