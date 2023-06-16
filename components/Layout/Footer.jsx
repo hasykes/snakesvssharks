@@ -12,7 +12,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <Wrapper>
         <Text color="accents-7">
-        <small>&copy; Copyright {currentYear}, Hayden Sykes</small>
+        <span><small>&copy; Copyright {currentYear}, Hayden Sykes</small> - <small><a className={styles.buyBeer} href="https://bmc.link/haydensykes">Buy me a Beer</a>🍺</small></span>
         </Text>
       </Wrapper>
     </footer>
