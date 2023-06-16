@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Container, Spacer } from '.';
+import { Spacer } from '.';
 import Footer from './Footer';
 import styles from './Layout.module.css';
 //import Nav from './Nav';

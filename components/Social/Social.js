@@ -1,5 +1,5 @@
 import styles from './Social.module.css';
-import { Spacer, Container} from '@/components/Layout';
+import { Container } from '@/components/Layout';
 import twitter from "../../public/images/twitter.svg"
 //import insta from "../../public/images/insta.svg"
 import reddit from "../../public/images/reddit.svg"
@@ -30,18 +30,21 @@ export const Social = (props) => {
     <a  
     href={'https://twitter.com/intent/tweet?text=' + encodeURIComponent(twitterString)} 
     target="_blank"
+    rel="noreferrer"
     className={styles.icon}>
         <img src={twitter} />
     </a>
     <a 
     href="https://www.facebook.com/sharer/sharer.php?u=https%3A//snakesvssharks.com"
     target="_blank"
+    rel="noreferrer"
     className={styles.icon}>
         <img src={facebook} />
     </a>
     <a
     href={"https://www.reddit.com/submit?url=" + encodeURIComponent(redditString)}
     target="_blank"
+    rel="noreferrer"
     className={styles.icon}
     >
         <img src={reddit} />
@@ -49,6 +52,7 @@ export const Social = (props) => {
     <a 
     href={"mailto:?" + emailString}
     target="_blank"
+    rel="noreferrer"
     className={styles.icon}
     >
         <img src={email} />

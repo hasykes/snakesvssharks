@@ -1,6 +1,5 @@
 import { Text } from '@/components/Text';
 import styles from './Footer.module.css';
-import Spacer from './Spacer';
 import Wrapper from './Wrapper';
 
 const Footer = () => {
