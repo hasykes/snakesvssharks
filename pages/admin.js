@@ -20,9 +20,6 @@ export async function getServerSideProps(context) {
 
 const Admin = ({isAuth}) => {
 
-  if(!isAuth){return <>Unauthorized</>}
-  else{
-
     const [totalSharkCount,setTotalSharkCount] = useState(0);
     const [totalSnakeCount,setTotalSnakeCount] = useState(0);
     const [totalVoteCount,setTotalVoteCount] = useState(0);
@@ -49,7 +46,8 @@ const Admin = ({isAuth}) => {
         })
 
     }, [])
-
+    
+  if(!isAuth){return <>Unauthorized</>}
   if(isLoading){return <Loading />}
   return (
     <>
@@ -61,7 +59,6 @@ const Admin = ({isAuth}) => {
         <Chart sharks={totalSharkCount} snakes={totalSnakeCount} votesByDay={votesByDay}/>
     </>
   )
-  }
 };
 
 export default Admin;
