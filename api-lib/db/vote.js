@@ -47,6 +47,27 @@ export async function updateEmail(db,email,creatorId){
   return await db.collection('votes').updateOne({creatorId:creatorId},{$set:{email:email}})
 }
 
+export async function getCountOfRecordsWithEmail(db){
+  return await db.collection('votes').countDocuments({email:{$ne:null}});
+}
+
+export async function getVotesByDay(db){
+  //return await db.collection('votes').find({}).project({content:1,createdAt:1}).toArray(); //list:{$push:"$$ROOT"},
+  return await db.collection('votes')
+  .find() //I cant get the stupid find function to only return the values I want
+  .map((p) => {
+    return {
+      vote:p.content,
+      date:p.createdAt
+    }
+  })
+  .toArray();
+  //.aggregate([{$group:{_id:{groupDate:{$dateToString:{ format: "%Y-%m-%d", date: "$createdAt"}}, utcDate:"$createdAt"},count: {$sum: 1}}}]).toArray();
+
+  //aggregate by vote type
+  //db.collection('votes').aggregate([{$group:{_id:'$content',count: {$sum: 1}}}]).toArray()
+}
+
 /*
 export async function findComments(db, postId, before, limit = 10) {
   return db
