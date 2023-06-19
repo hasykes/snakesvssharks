@@ -1,0 +1,15 @@
+.team{
+    color:whitesmoke;
+   fill: crimson !important;
+   stroke:black !important;
+}
+
+.enemy{
+    color:whitesmoke;
+    fill: black !important;
+    stroke:black !important;
+}
+
+.fullWidth{
+    width:100%;
+}
