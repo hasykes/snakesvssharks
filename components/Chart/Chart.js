@@ -27,7 +27,7 @@ const Chart = (props) => {
       
       const reduceToDate = props.votesByDay.map((data) => {
         const localeDate = new Date(data.date)
-        const dateString = `${localeDate.getFullYear()}-${localeDate.getDate()}-${localeDate.getMonth()}`
+        const dateString = `${localeDate.getFullYear()}-${localeDate.getMonth()+1}-${localeDate.getDate()}` //month is 0 - 11
         return {
             vote:data.vote,
             date:dateString,
@@ -48,6 +48,8 @@ const Chart = (props) => {
             
         })
       })
+
+      voteCountByDay.reverse() //newest date first
       
       //const groupedVotesByDay = groupBy(correctedLocaleVotesByDay,'date')
       //console.log(correctedLocaleVotesByDay);
@@ -69,10 +71,35 @@ const Chart = (props) => {
             );
       }
 
+      /*
+      const yearTickFormatter = (tick) => {
+        const dateParts = tick.split("-")
+      
+        return dateParts[0]; //return 1st date part i.e. year yyyy-mm-dd
+      };
+
+      const monthTickFormatter = (tickProps) => {
+        const { x, y, payload } = tickProps;
+        const { value, offset } = payload;
+
+        const dateParts = value.split("-")
+        return <text x={x} y={y - 12} textAnchor="middle">{`${dateParts[1]}`}</text>;
+      
+       //return 2nd date part i.e. month yyyy-mm-dd
+      };
+
+      const dayTickFormatter = (tick) => {
+        const dateParts = tick.split("-")
+      
+        return dateParts[2]; //return last date part i.e. day yyyy-mm-dd
+      };
+      */
+      const barChartWidth = voteCountByDay.length * 75
+
     return (
     <Container column justifyContent="center" alignItems="center" >
         <Container className={styles.fullWidth}>
-            <PieChart width={300} height={275}>
+            <PieChart width={300} height={300}>
                 <Pie
                     data={allVotes}
                     cx="50%"
@@ -92,12 +119,11 @@ const Chart = (props) => {
             </PieChart> 
         </Container>
         <Container className={styles.fullWidth}>
-            <BarChart width={1000} height={275} data={voteCountByDay} >
+            <BarChart width={barChartWidth} height={500} data={voteCountByDay} barCategoryGap="1%" barGap="1%" >
                 <CartesianGrid />
-                <XAxis dataKey="date" />
+                <XAxis dataKey="date" padding={{ left: 0, right: 0}} height={100} angle={-45} textAnchor="end"/>
                 <YAxis />
                 <Tooltip />
-                <Legend />
                 <Bar dataKey="shark" name="Sharks" stackId="a" fill="crimson" />
                 <Bar dataKey="snake" name="Snakes" stackId="a" fill="gray" />
             </BarChart>
