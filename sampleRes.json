@@ -1,0 +1,77 @@
+{
+    "ip": "2600:1700:c4e0:313f:f50d:27b4:85ed:7409",
+    "continent_code": "NA",
+    "continent_name": "North America",
+    "country_code2": "US",
+    "country_code3": "USA",
+    "country_name": "United States",
+    "country_capital": "Washington, D.C.",
+    "state_prov": "Washington",
+    "state_code": "US-WA",
+    "district": "",
+    "city": "Redmond",
+    "zipcode": "98052-7823",
+    "latitude": "47.66930",
+    "longitude": "-122.12180",
+    "is_eu": false,
+    "calling_code": "+1",
+    "country_tld": ".us",
+    "languages": "en-US,es-US,haw,fr",
+    "country_flag": "https://ipgeolocation.io/static/flags/us_64.png",
+    "geoname_id": "7224437",
+    "isp": "AT&T Corp.",
+    "connection_type": "",
+    "organization": "AT&T Services, Inc.",
+    "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "symbol": "$"
+    },
+    "time_zone": {
+      "name": "America/Los_Angeles",
+      "offset": -8,
+      "current_time": "2023-06-20 15:12:36.555-0700",
+      "current_time_unix": 1687299156,
+      "is_dst": true,
+      "dst_savings": 1
+    }
+  }
+
+  {
+    "ip": "108.64.86.209",
+    "continent_code": "NA",
+    "continent_name": "North America",
+    "country_code2": "US",
+    "country_code3": "USA",
+    "country_name": "United States",
+    "country_capital": "Washington, D.C.",
+    "state_prov": "Georgia",
+    "state_code": "US-GA",
+    "district": "",
+    "city": "Tucker",
+    "zipcode": "",
+    "latitude": "33.85455",
+    "longitude": "-84.21714",
+    "is_eu": false,
+    "calling_code": "+1",
+    "country_tld": ".us",
+    "languages": "en-US,es-US,haw,fr",
+    "country_flag": "https://ipgeolocation.io/static/flags/us_64.png",
+    "geoname_id": "4227213",
+    "isp": "AT&T Corp.",
+    "connection_type": "",
+    "organization": "AT&T Corp.",
+    "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "symbol": "$"
+    },
+    "time_zone": {
+      "name": "America/New_York",
+      "offset": -5,
+      "current_time": "2023-06-20 18:15:11.094-0400",
+      "current_time_unix": 1687299311,
+      "is_dst": true,
+      "dst_savings": 1
+    }
+  }
